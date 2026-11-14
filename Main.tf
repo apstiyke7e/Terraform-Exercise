@@ -266,7 +266,7 @@ resource "aws_security_group" "App-SG" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow-ssh-2" {
-  security_group_id = aws_security_group.App-SG.id
+  security_group_id            = aws_security_group.App-SG.id
   referenced_security_group_id = aws_security_group.Web-SG.id
   from_port         = 22  
   ip_protocol       = "tcp"
@@ -274,7 +274,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow-ssh-2" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow-app-port" {
-  security_group_id = aws_security_group.App-SG.id
+  security_group_id            = aws_security_group.App-SG.id
   referenced_security_group_id = aws_security_group.Web-SG.id
   from_port         = 8080
   ip_protocol       = "tcp"
@@ -282,7 +282,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow-app-port" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow-icmp-2" {
-  security_group_id = aws_security_group.App-SG.id
+  security_group_id            = aws_security_group.App-SG.id
   referenced_security_group_id = aws_security_group.Web-SG.id
   from_port          = -1 
   ip_protocol        = "icmp"
@@ -311,7 +311,7 @@ resource "aws_security_group" "DB-SG" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow-ssh-3" {
-  security_group_id = aws_security_group.DB-SG.id
+  security_group_id            = aws_security_group.DB-SG.id
   referenced_security_group_id = aws_security_group.App-SG.id
   from_port         = 22
   ip_protocol       = "tcp"
@@ -319,7 +319,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow-ssh-3" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow-DB-port" {
-  security_group_id = aws_security_group.DB-SG.id
+  security_group_id            = aws_security_group.DB-SG.id
   referenced_security_group_id = aws_security_group.App-SG.id
   from_port         = 3306
   ip_protocol       = "tcp"
@@ -327,7 +327,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow-DB-port" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow-icmp-3" {
-  security_group_id = aws_security_group.DB-SG.id
+  security_group_id            = aws_security_group.DB-SG.id
   referenced_security_group_id = aws_security_group.App-SG.id
   from_port         = -1 
   ip_protocol       = "icmp"
@@ -378,7 +378,7 @@ data "aws_ami" "ubuntu" {
 resource "aws_instance" "Bastion-Server" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t3.micro"
-  subnet_id  = aws_subnet.Web-public-A.id
+  subnet_id              = aws_subnet.Web-public-A.id
   vpc_security_group_ids = [aws_security_group.Web-SG.id]
   key_name   = var.key_name 
 
@@ -394,7 +394,7 @@ resource "aws_instance" "Bastion-Server" {
 resource "aws_instance" "Web-VM" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t3.micro"
-  subnet_id  = aws_subnet.Web-public-B.id 
+  subnet_id              = aws_subnet.Web-public-B.id 
   vpc_security_group_ids = [aws_security_group.Web-SG.id] 
   key_name  = var.key_name
 
@@ -409,7 +409,7 @@ resource "aws_instance" "Web-VM" {
 resource "aws_instance" "App-VM" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t3.micro"
-  subnet_id   = aws_subnet.App-private-A.id
+  subnet_id              = aws_subnet.App-private-A.id
   vpc_security_group_ids = [aws_security_group.App-SG.id] 
   key_name  = var.key_name
 
@@ -427,7 +427,7 @@ resource "aws_instance" "App-VM" {
 resource "aws_instance" "DB-VM" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t3.micro"
-  subnet_id   = aws_subnet.DB-private-A.id 
+  subnet_id              = aws_subnet.DB-private-A.id 
   vpc_security_group_ids = [aws_security_group.DB-SG.id] 
   key_name  = var.key_name 
 
@@ -436,5 +436,5 @@ resource "aws_instance" "DB-VM" {
   }
 }
 
-
+  
 
