@@ -112,6 +112,11 @@ resource "aws_internet_gateway" "quant-gw" {
 
 resource "aws_eip" "quant-eip" {
   domain  = "vpc"
+
+  tags  = {
+    Name = "quant-eip"
+    Env  = "prod"
+  }    
 }
   
 # Create NAT gateway
@@ -121,7 +126,9 @@ resource "aws_nat_gateway" "quant-NATGW" {
   subnet_id     = aws_subnet.Web-public-A.id
 
   tags = {
-    Name = "quant-NATGW"
+    Name  = "quant-NATGW"
+    Env   = "prod"
+    owner = "othniel"  
   }
 
   # To ensure proper ordering, it is recommended to add an explicit dependency
@@ -271,6 +278,8 @@ resource "aws_vpc_security_group_ingress_rule" "allow-ssh-2" {
   from_port         = 22  
   ip_protocol       = "tcp"
   to_port           = 22
+
+  description       = "Allow SSH from web tier to App tier"
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow-app-port" {
